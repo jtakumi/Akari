@@ -17,14 +17,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
@@ -123,7 +121,6 @@ private fun AkariApp() {
                 Text("暖色プリセット")
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     presets.forEach { preset ->
-                        val presetColor = Color.hsv(preset.hue, preset.saturation, 1f)
                         OutlinedButton(
                             onClick = {
                                 hue = preset.hue
