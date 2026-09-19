@@ -75,11 +75,11 @@ private fun AkariApp() {
     var isOn by remember { mutableStateOf(true) }
     var isControlsVisible by remember { mutableStateOf(true) }
 
-    KeepScreenOn(enabled = isOn)
+    KeepLampActive(enabled = isOn, brightness = brightness)
 
     val selectedColor = Color.hsv(hue, saturation, 1f)
     val lampColor = if (isOn) {
-        Color.hsv(hue, saturation, brightness)
+        Color.hsv(hue, saturation, 1f)
     } else {
         Color(0xFF101010)
     }
@@ -198,17 +198,26 @@ private fun ColorSlider(
 }
 
 @Composable
-private fun KeepScreenOn(enabled: Boolean) {
+private fun KeepLampActive(enabled: Boolean, brightness: Float) {
     val view = LocalView.current
-    DisposableEffect(enabled) {
+    DisposableEffect(enabled, brightness) {
         val window = (view.context as Activity).window
         if (enabled) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            window.attributes = window.attributes.apply {
+                screenBrightness = brightness
+            }
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            window.attributes = window.attributes.apply {
+                screenBrightness = -1f
+            }
         }
         onDispose {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            window.attributes = window.attributes.apply {
+                screenBrightness = -1f
+            }
         }
     }
 }
